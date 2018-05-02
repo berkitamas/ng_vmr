@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-search-stations-form',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchStationsFormComponent implements OnInit {
 
+  @Output() searchValueChanged = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSearchChange(value: string) {
+    this.searchValueChanged.emit(value);
   }
 
 }

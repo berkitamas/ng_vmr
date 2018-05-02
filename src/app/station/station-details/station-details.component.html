@@ -1,3 +1,5 @@
-<p>
-  station-details works!
-</p>
+<div *ngIf="station$ | async as station">
+  {{ station.name }}
+  <app-station-arrival></app-station-arrival>
+  <app-station-departure></app-station-departure>
+</div>
