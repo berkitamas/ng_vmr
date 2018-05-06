@@ -11,6 +11,9 @@ import {TemperaturePipe} from './temperature.pipe';
     WeatherDetailsComponent,
     TemperaturePipe,
   ],
-  bootstrap: [WeatherDetailsComponent]
+  bootstrap: [WeatherDetailsComponent],
+  exports: [
+    WeatherDetailsComponent
+  ]
 })
 export class WeatherModule { }

@@ -1,0 +1,8 @@
+.container {
+  max-width: 600px;
+  margin: 10px auto;
+}
+
+mat-card-title {
+  text-align: center;
+}

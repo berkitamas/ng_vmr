@@ -1,3 +1,27 @@
-<p>
-  line-details works!
-</p>
+<div *ngIf="lineDetails$ | async as line">
+  <mat-table [dataSource]="line.stations">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Név</mat-header-cell>
+      <mat-cell *matCellDef="let stop">{{ stop.station.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="track">
+      <mat-header-cell *matHeaderCellDef>Vágány</mat-header-cell>
+      <mat-cell *matCellDef="let stop">{{ stop.track }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef>Érkezési idő</mat-header-cell>
+      <mat-cell *matCellDef="let stop">{{ stop.stopTime * 60 * 1000 | date:'HH:mm':'UTC' }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="temperature">
+      <mat-header-cell *matHeaderCellDef>Hőmérséklet</mat-header-cell>
+      <mat-cell *matCellDef="let stop"> <app-weather-details [station]="stop.station"></app-weather-details></mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

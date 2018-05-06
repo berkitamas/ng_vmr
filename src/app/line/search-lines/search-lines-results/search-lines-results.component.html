@@ -1,3 +1,8 @@
-<p>
-  search-lines-results works!
-</p>
+<mat-accordion *ngIf="routes.length > 0">
+  <mat-expansion-panel *ngFor="let route of routes" appLineMissed [stopTime]="route.from.stopTime">
+    <mat-expansion-panel-header>{{ route.from.stopTime * 60 * 1000 | date:'HH:mm':'UTC' }} - {{ route.to.stopTime * 60 * 1000 | date:'HH:mm' }}</mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <app-line-details [lineId]="route.lineId"></app-line-details>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>

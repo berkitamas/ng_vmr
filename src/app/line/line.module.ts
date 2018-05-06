@@ -5,13 +5,31 @@ import {LineMissedDirective} from './line-missed.directive';
 import {SearchLinesFormComponent} from './search-lines/search-lines-form/search-lines-form.component';
 import {LineDetailsComponent} from './line-details/line-details.component';
 import {SearchLinesComponent} from './search-lines/search-lines.component';
-import {LineRoutes} from './line.routes';
 import {TrainService} from '../services/train.service';
 import {WeatherService} from '../services/weather.service';
+import {ReactiveFormsModule} from '@angular/forms';
+import {
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatDividerModule, MatExpansionModule,
+  MatFormFieldModule,
+  MatInputModule, MatTableModule
+} from '@angular/material';
+import {WeatherModule} from '../weather/weather.module';
 
 @NgModule({
   imports: [
-    LineRoutes,
+    ReactiveFormsModule,
+    WeatherModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatDividerModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatTableModule,
     CommonModule
   ],
   declarations: [
@@ -25,6 +43,11 @@ import {WeatherService} from '../services/weather.service';
     TrainService,
     WeatherService
   ],
-  bootstrap: [SearchLinesComponent]
+  bootstrap: [SearchLinesComponent],
+  exports: [
+    LineDetailsComponent,
+    SearchLinesComponent,
+    LineMissedDirective
+  ]
 })
 export class LineModule { }

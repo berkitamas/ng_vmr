@@ -12,8 +12,6 @@ export class StationDetailsResolver implements Resolve<Station> {
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Station> {
     const id = route.paramMap.get('id');
 
-    console.log(id);
-
     return this.trainService.getStation(Number(id));
   }
 }

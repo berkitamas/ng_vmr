@@ -1,2 +1,4 @@
-<app-search-lines-form></app-search-lines-form>
-<app-search-lines-results></app-search-lines-results>
+<div class="container">
+  <app-search-lines-form (formSubmit)="onSearch($event)"></app-search-lines-form>
+  <app-search-lines-results [routes]="routesFound"></app-search-lines-results>
+</div>

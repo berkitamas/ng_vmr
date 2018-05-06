@@ -1,0 +1,7 @@
+<mat-card>
+  <mat-nav-list *ngIf="stations.length > 0">
+    <a mat-list-item *ngFor="let station of stations" routerLink="/station/{{ station.id }}">
+      {{ station.name }}
+    </a>
+  </mat-nav-list>
+</mat-card>

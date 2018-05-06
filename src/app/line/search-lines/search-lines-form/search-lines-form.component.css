@@ -1,0 +1,19 @@
+.form-container {
+  margin: 10px 0;
+}
+
+.form-container form {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+mat-form-field {
+  flex: 1 100px;
+  margin: 0 10px;
+}
+
+button {
+  flex: 2 500px;
+}

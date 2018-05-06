@@ -1,3 +1,8 @@
-<p>
-  station-departure works!
-</p>
+<mat-accordion *ngIf="departures.length > 0">
+  <mat-expansion-panel *ngFor="let departure of departures" appLineMissed [stopTime]="departure.currentStation.stopTime">
+    <mat-expansion-panel-header>{{departure.currentStation.stopTime * 60 * 1000 | date:'HH:mm':'UTC' }} ({{departure.currentStation.track}}) - {{departure.lastStation.stopTime * 60 * 1000 | date:'HH:mm':'UTC' }} {{departure.lastStation.station.name}} ({{departure.lastStation.track}})</mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <app-line-details [lineId]="departure.lineId"></app-line-details>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>

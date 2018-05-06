@@ -1,5 +1,18 @@
-<div *ngIf="station$ | async as station">
-  {{ station.name }}
-  <app-station-arrival></app-station-arrival>
-  <app-station-departure></app-station-departure>
-</div>
+<mat-card *ngIf="station$ | async as station">
+  <mat-card-title>{{ station.name }}</mat-card-title>
+  <mat-card-subtitle><app-weather-details [station]="station"></app-weather-details></mat-card-subtitle>
+  <mat-card-content>
+    <mat-tab-group>
+      <mat-tab label="Érkező járatok">
+        <ng-template matTabContent>
+          <app-station-arrival [station]="station"></app-station-arrival>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Induló járatok">
+        <ng-template matTabContent>
+          <app-station-departure [station]="station"></app-station-departure>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

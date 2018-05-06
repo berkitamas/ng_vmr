@@ -1,3 +1,38 @@
-<p>
-  search-lines-form works!
-</p>
+<mat-card class="form-container">
+  <mat-card-title>
+    Keresés
+  </mat-card-title>
+  <form [formGroup]="lineSearchForm" (ngSubmit)="onFormSubmit()">
+    <mat-form-field>
+      <input type="text" matInput formControlName="fromstation" [matAutocomplete]="fromStationAuto" placeholder="Honnan" required>
+      <mat-error>
+        Kiinduló állomás megadása kötelező!
+      </mat-error>
+    </mat-form-field>
+    <mat-autocomplete #fromStationAuto="matAutocomplete">
+      <mat-option *ngFor="let station of fromStationAuto$ | async" [value]="station.name">
+        {{ station.name }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-form-field>
+      <input type="text" matInput formControlName="tostation" [matAutocomplete]="toStationAuto" placeholder="Hova" required>
+      <mat-error>
+        Célállomás megadása kötelező!
+      </mat-error>
+    </mat-form-field>
+    <mat-autocomplete #toStationAuto="matAutocomplete">
+      <mat-option *ngFor="let station of toStationAuto$ | async" [value]="station.name">
+        {{ station.name }}
+      </mat-option>
+    </mat-autocomplete>
+    <br />
+    <mat-form-field>
+      <input type="time" matInput formControlName="fromtime" placeholder="Mettől">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="time" matInput formControlName="totime" placeholder="Meddig">
+    </mat-form-field>
+    <br />
+    <button mat-raised-button color="primary" type="submit">Keresés</button>
+  </form>
+</mat-card>

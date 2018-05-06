@@ -1,3 +1,6 @@
-<label>
-  <input type="text" (input)="onSearchChange($event.target.value)">
-</label>
+<mat-card>
+  <mat-card-title>Keresés állomásra</mat-card-title>
+  <mat-form-field>
+    <input type="text" matInput (input)="onSearchChange($event.target.value)" placeholder="Állomás neve">
+  </mat-form-field>
+</mat-card>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Route} from '../../../models/route';
 
 @Component({
   selector: 'app-search-lines-results',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-lines-results.component.css']
 })
 export class SearchLinesResultsComponent implements OnInit {
+  @Input() routes: Route[];
 
   constructor() { }
 

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Station} from '../../models/station';
+import {WeatherService} from '../../services/weather.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-weather-details',
@@ -6,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./weather-details.component.css']
 })
 export class WeatherDetailsComponent implements OnInit {
+  @Input() station: Station;
 
-  constructor() { }
+  temperature$: Observable<number>;
+
+  constructor(private weatherService: WeatherService) { }
 
   ngOnInit() {
+    this.temperature$ = this.weatherService.getTemperatureByStation(this.station);
   }
 
 }

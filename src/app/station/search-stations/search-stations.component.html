@@ -1,4 +1,4 @@
-<app-search-stations-form (searchValueChanged)="onSearchValueChanged($event)"></app-search-stations-form>
-<div *ngIf="stations.length > 0">
-  <app-search-stations-result *ngFor="let station of stations"  [station]="station"></app-search-stations-result>
+<div class="container">
+  <app-search-stations-form (searchValueChanged)="onSearchValueChanged($event)"></app-search-stations-form>
+    <app-search-stations-results [stations]="stations"></app-search-stations-results>
 </div>
