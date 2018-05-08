@@ -18,23 +18,47 @@ export class TrainService {
 
   constructor() { }
 
+  /**
+   * Fetches the stations from mock-trains
+   * @returns {Observable<Station[]>} - Observable with the stations
+   */
   static getStations(): Observable<Station[]> {
     return of(STATIONS);
   }
 
+  /**
+   * Fetches the lines from mock-trains
+   * @returns {Observable<Line[]>} - Observable with the lines
+   */
   static getLines(): Observable<Line[]> {
     return of(LINES);
   }
 
+  /**
+   * Search for stations by the given terms
+   * @param {string} term - The term of the search
+   * @returns {Observable<Station[]>} - Observable with the search results
+   */
   searchStations(term: string): Observable<Station[]> {
     return TrainService.getStations().map(stations => stations.filter(station => station.name.toLowerCase().includes(term.toLowerCase())));
   }
 
+  /**
+   * Fetches the station by the given id
+   * @param {number} id - ID of the station
+   * @returns {Observable<Station>} - Observable with the station
+   */
   getStation(id: number): Observable<Station> {
     return TrainService.getStations()
       .map(stations => stations.filter(station => station.id === id)[0]);
   }
 
+  /**
+   * Fetches the line by the given ID
+   * It also sorts the stops
+   * @param {number} id - ID of line
+   * @returns {Observable<Line>} - Observable witht the line
+   */
   getLine(id: number): Observable<Line> {
     return TrainService.getLines()
       .map(lines => lines.filter(line => line.id === id)[0])
@@ -52,7 +76,11 @@ export class TrainService {
       });
   }
 
-
+  /**
+   * Fetches all the arrivals by the station ID where the trains arrive
+   * @param {number} id - The station ID where the trains arrive
+   * @returns {Observable<Arrival[]>} - Observable with the arrivals
+   */
   getStationArrivals(id: number): Observable<Arrival[]> {
     return TrainService.getLines()
       .map(lines => lines.map(line => {
@@ -68,7 +96,6 @@ export class TrainService {
         return line;
       }))
       .map(lines => lines.filter(line => line.stations.map(stop => stop.station.id).includes(id, 1)))
-      .do(lines => console.log(lines))
       .map(lines => lines.map(line => new Arrival(
         line.id,
         line.stations[0],
@@ -76,6 +103,11 @@ export class TrainService {
       ));
   }
 
+  /**
+   * Fetches all the departures by the station ID from where the trains leave
+   * @param {number} id - The station ID from where the trains leave
+   * @returns {Observable<any>} - Observable with the departures
+   */
   getStationDeparutes(id: number) {
     return TrainService.getLines()
       .map(lines => lines.filter(line => {
@@ -86,15 +118,25 @@ export class TrainService {
         line.id,
         line.stations.filter(stop => stop.station.id === id)[0],
         line.stations[line.stations.length - 1],
-      )))
-      .do(lines => console.log(lines));
+      )));
   }
 
+  /**
+   * Searches for routes by the given parameters
+   * @param {string} from - The name of the station from where the train leave (can be part of it)
+   * @param {string} to - The name of the station from where the train leave (can be part of it)
+   * @param {number} fromTime - The earliest time of the route
+   * @param {number} toTime - The latest time of the route
+   * @returns {Observable<Route[]>} - Observable with the routes
+   */
   searchRoutes(from: string, to: string, fromTime?: number, toTime?: number): Observable<Route[]> {
     return TrainService.getLines()
+      // Searches for the lines by the name (from)
       .map(
         lines => lines.filter(line => line.stations.map(stop => stop.station.name.toLowerCase()).includes(from.toLowerCase()))
       )
+      // Searches for the lines by the name (to)
+      // It must stop after the station from where the train leave
       .map(
         lines => lines.filter(line => {
           const fromStop = line.stations.find(stop => stop.station.name === from);
@@ -102,6 +144,7 @@ export class TrainService {
             stops.station.name.toLowerCase() === to.toLowerCase())) !== undefined;
         })
       )
+      // Transform the results to Route object
       .map(lines => lines.map(line => {
         const fromStop = line.stations.find(stop => stop.station.name.toLowerCase() === from.toLowerCase());
         const toStop = line.stations.find((stop) => (
@@ -109,12 +152,7 @@ export class TrainService {
         ));
         return new Route(line.id, fromStop, toStop);
       }))
-      .map(
-        routes => routes.filter(route => (
-          (fromTime == null || fromTime <= route.from.stopTime) &&
-          (toTime == null || toTime >= route.from.stopTime)
-        ))
-      )
+      // Sorts the result
       .map(routes => routes.sort((a, b) => {
         if (a.from.stopTime < b.from.stopTime) {
           return -1;
